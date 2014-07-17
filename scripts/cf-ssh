@@ -50,7 +50,7 @@ DELIM
     echo "  path: ${app_path}" >> ${manifest}
   fi
 
-  services_bound_to_app=$(cf s | grep " $appname " | awk '{ print $1 }')
+  services_bound_to_app=$(cf s | grep -E " $appname(,| )" | awk '{ print $1 }')
   if [[ "${services_bound_to_app}X" != "X" ]]; then
     echo "  services:" >> ${manifest}
     for service in ${services_bound_to_app[@]}; do
