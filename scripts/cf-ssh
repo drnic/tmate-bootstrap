@@ -5,18 +5,23 @@ set -o pipefail
 appname=$1
 if [[ "${appname}X" == "X" ]]; then
   cf apps
-  echo "USAGE: cf-ssh APPNAME"
+  echo "USAGE: cf-ssh [-b buildpack] [-p app_path] [-m memory_amount] APPNAME"
   exit 1
 fi
 shift
 
-while getopts "b:p:" opt; do
+memory_amount="512MB"
+
+while getopts "b:p:m:" opt; do
   case $opt in
     b)
       buildpack=$OPTARG
       ;;
     p)
       app_path=$OPTARG
+      ;;
+    m)
+      memory_amount=$OPTARG
       ;;
     *)
       echo "unrecognized option: $opt"
@@ -40,6 +45,7 @@ applications:
 - name: ${ssh_appname}
   command: curl http://tmate-bootstrap.cfapps.io | sh
   no-route: true
+  memory: ${memory_amount}
 DELIM
 
   if [[ "${buildpack}X" != "X" ]]; then
