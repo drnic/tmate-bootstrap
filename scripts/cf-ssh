@@ -5,7 +5,7 @@ set -o pipefail
 appname=$1
 if [[ "${appname}X" == "X" ]]; then
   cf apps
-  echo "USAGE: cf-ssh [-b buildpack] [-p app_path] [-m memory_amount] APPNAME"
+  echo "USAGE: cf-ssh APPNAME [-b buildpack] [-p app_path] [-m memory_amount]"
   exit 1
 fi
 shift
